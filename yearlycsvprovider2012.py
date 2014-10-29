@@ -1,7 +1,6 @@
 import os
 import yearlycsvprovider
 
-
 class YearlyCSVProvider2012(yearlycsvprovider.YearlyCSVProvider):
     sourceCSV = os.path.normpath("data/NHL 2012-13.xls")
     sheetObjects = {}

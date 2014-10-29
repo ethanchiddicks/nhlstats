@@ -1,5 +1,4 @@
 from xlrd import open_workbook
-import pprint
 
 
 class YearlyCSVProvider:
@@ -19,10 +18,13 @@ class YearlyCSVProvider:
             for columnIndex in range(self.sheetObjects[sheetNumber].ncols):
                 self.dataLegend[sheetNumber][columnIndex] = self.sheetObjects[sheetNumber].cell(0, columnIndex).value
 
-    def printLegend(self):
-        """Prints the list of column headings for building valueMaps."""
-        pp = pprint.PrettyPrinter(indent=4)
-        pp.pprint(self.dataLegend)
+    def getLegend(self):
+        """Returns a list of data values available from the data source."""
+        return self.dataLegend
+
+    def getMap(self):
+        """Returns a list of data sources available from this provider"""
+        return self.dataMap
 
 
     def lookupValue(self, playerKey, valueKey):
@@ -56,10 +58,5 @@ class YearlyCSVProvider:
         statKeys = []
         for statKey in self.dataMap:
             playerProfile[statKey] = self.lookupValue(playerKey, statKey)
-            #if isinstance(playerProfile[statKey], (int, float)):
-            if playerProfile[statKey].isnumeric():
-                statKeys.append(statKey)
-        # calculate rate stats
-        for statKey in statKeys:
-            playerProfile[statKey + 'PG'] = round(playerProfile[statKey] / playerProfile['GP'], 2)
+            statKeys.append(statKey)
         return playerProfile
