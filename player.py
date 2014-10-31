@@ -72,6 +72,20 @@ class Player:
             for value in header:
                 row.append(yearValue[value])
             table.append(row)
+        print self.playerReference
+        print tabulate(table, header, tablefmt="grid")
+
+    def printOverall(self):
+        """Prints player's overall statistics"""
+        # Get all values available.
+        header = self.statKey.keys()
+        header.sort()
+        table = []
+        row = []
+        for value in header:
+            row.append(self.stats['Overall'][value])
+        table.append(row)
+        print self.playerReference
         print tabulate(table, header, tablefmt="grid")
 
 

@@ -3,8 +3,8 @@ import player
 
 ds = dataservice.DataService()
 jake = player.Player('JAKEMUZZIN', ds)
-jake.printYearOnYear()
+jake.printOverall()
 roman = player.Player('ROMANJOSI', ds)
-roman.printYearOnYear()
+roman.printOverall()
 alex = player.Player('ALEXEIYEMELIN', ds)
-alex.printYearOnYear()
+alex.printOverall()
