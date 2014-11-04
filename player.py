@@ -7,7 +7,7 @@ class Player:
     statKey = {
         'Year': {'counting': False, 'rateable': False},
         'GP': {'counting': True, 'rateable': False},
-        'AGE': {'counting': False, 'rateable': False},
+        #'AGE': {'counting': False, 'rateable': False},
         'G': {'counting': True, 'rateable': True},
         'A': {'counting': True, 'rateable': True},
         'PPP': {'counting': True, 'rateable': True},
@@ -36,7 +36,7 @@ class Player:
             if statMeta['counting']:
                 for value in self.stats.itervalues():
                     try:
-                        overall += value[statKey]
+                        overall += float(value[statKey])
                     except TypeError:
                         overall += 0
             else:
@@ -54,7 +54,7 @@ class Player:
                     rateKey = statKey + 'PG'
                     newStatKeys[rateKey] = {'calculated': True, 'counting': False, 'rateable': False}
                     try:
-                        newStats[rateKey] = round(yearValue[statKey] / yearValue['GP'], 2)
+                        newStats[rateKey] = round(float(yearValue[statKey]) / float(yearValue['GP']), 2)
                     except TypeError:
                         newStats[rateKey] = None
             self.stats[yearKey].update(newStats)

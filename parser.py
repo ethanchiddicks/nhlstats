@@ -1,10 +1,11 @@
 import dataservice
 import player
+import yearlyscrapeprovider2014
 
 ds = dataservice.DataService()
-jake = player.Player('JAKEMUZZIN', ds)
-jake.printOverall()
-roman = player.Player('ROMANJOSI', ds)
-roman.printOverall()
-alex = player.Player('ALEXEIYEMELIN', ds)
-alex.printOverall()
+patrice = player.Player('8470638', ds)
+patrice.printYearOnYear()
+kyle = player.Player('8474068', ds)
+kyle.printYearOnYear()
+alex = player.Player('8470257', ds)
+alex.printYearOnYear()

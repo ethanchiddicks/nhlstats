@@ -19,29 +19,46 @@ class YearlyScrapeProvider:
     def __init__(self):
         # Collapse view names
         views = {}
+        self.stats = {}
         for stat, meta in self.statsAvailable.iteritems():
-            views[meta['viewname']]
-
-        for page in range(1,25):
-            url = self.baseURL + "&pg=%s" % (page)
-            print url
-            html = urllib2.urlopen(url).read()
-            soup = BeautifulSoup(html)
-            body = soup.find("tbody")
-            if body is None:
-                break
-            rows = body.find_all("tr")
-
-            for row in rows:
-                cells = row.find_all("td")
-                link = cells[0].find("a")
-                idpattern = r'\d+'
-                namepattern = r'([\w\s\-\'\.]+), ([\w\.]+)'
-                idregex = re.compile(idpattern, re.UNICODE)
-                nameregex = re.compile(namepattern, re.UNICODE)
-                id = idregex.search(link.attrs[u'href'])
-                name = nameregex.search(link.text.strip())
-                print id.group(0), name.group(1), name.group(2)
+            if meta['viewName'] not in views:
+                views[meta['viewName']] = []
+                views[meta['viewName']].append([meta['columnName']])
+            else:
+                views[meta['viewName']].append([meta['columnName']])
+        for viewName, columnArray in views.iteritems():
+            for page in range(1,30):
+                url = self.baseUrl + "&viewName=%s&pg=%s" % (viewName, page)
+                print url
+                html = urllib2.urlopen(url).read()
+                soup = BeautifulSoup(html)
+                header = soup.find("thead")
+                if header is None:
+                    break
+                columns = header.find_all("th")
+                statMap = []
+                for column in columns:
+                    statMap.append(column.text.strip())
+                body = soup.find("tbody")
+                rows = body.find_all("tr")
+                for row in rows:
+                    columnIndex = 0
+                    cells = row.find_all("td")
+                    rowKey = 0
+                    for cell in cells:
+                        if columnIndex is not 0:
+                            if columnIndex is 1:
+                                link = cell.find("a")
+                                idpattern = r'\d+'
+                                idregex = re.compile(idpattern, re.UNICODE)
+                                id = idregex.search(link.attrs[u'href'])
+                                rowKey = id.group(0)
+                                if rowKey not in self.stats:
+                                    self.stats[rowKey] = {}
+                                    self.stats[rowKey]['Name'] = cell.text
+                            else:
+                                self.stats[rowKey][statMap[columnIndex]] = cell.text
+                        columnIndex += 1
 
     def getMap(self):
         """Returns a list of data sources available from this provider"""
@@ -49,9 +66,7 @@ class YearlyScrapeProvider:
 
     def getPlayerProfile(self, playerKey):
         """Returns all mapped data about a player."""
-        playerProfile = {}
-        statKeys = []
-        for statKey in self.dataMap:
-            playerProfile[statKey] = self.lookupValue(playerKey, statKey)
-            statKeys.append(statKey)
+        player = {}
+        for stat, meta in self.statsAvailable.iteritems():
+            player[stat] = self.stats[playerKey][meta['columnName']]
         return player
