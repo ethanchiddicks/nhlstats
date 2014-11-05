@@ -37,7 +37,7 @@ class Player:
                 for value in self.stats.itervalues():
                     try:
                         overall += float(value[statKey])
-                    except TypeError:
+                    except (TypeError, KeyError):
                         overall += 0
             else:
                 overall = 'N/A'
@@ -55,7 +55,7 @@ class Player:
                     newStatKeys[rateKey] = {'calculated': True, 'counting': False, 'rateable': False}
                     try:
                         newStats[rateKey] = round(float(yearValue[statKey]) / float(yearValue['GP']), 2)
-                    except TypeError:
+                    except (TypeError, KeyError, ZeroDivisionError):
                         newStats[rateKey] = None
             self.stats[yearKey].update(newStats)
         self.statKey.update(newStatKeys)

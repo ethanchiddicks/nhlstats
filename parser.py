@@ -12,12 +12,17 @@ db = client.nhlstats
 collection = db.players
 
 print 'Emptying database'
-collection.remove({})
+collection.remove()
 
 ds = DataService()
 
 for playerId, playerMeta in playerList.iteritems():
+    print "Processing player %s" % playerId
     playerObject = Player(playerId, ds)
     playerData = playerObject.getStats()
-    playerData['_id'] = playerId
-    collection.insert(playerData)
+    if playerData:
+        playerData['_id'] = playerId
+        playerData['firstName'] = playerMeta['firstName']
+        playerData['lastName'] = playerMeta['lastName']
+
+        collection.insert(playerData)

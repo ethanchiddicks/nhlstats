@@ -67,6 +67,7 @@ class YearlyScrapeProvider:
     def getPlayerProfile(self, playerKey):
         """Returns all mapped data about a player."""
         player = {}
-        for stat, meta in self.statsAvailable.iteritems():
-            player[stat] = self.stats[playerKey][meta['columnName']]
+        if playerKey in self.stats:
+            for stat, meta in self.statsAvailable.iteritems():
+                player[stat] = self.stats[playerKey][meta['columnName']]
         return player
