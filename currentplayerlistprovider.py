@@ -10,7 +10,7 @@ class CurrentPlayerListProvider:
         for letter in ascii_uppercase:
             for page in range(1,5):
                 url = "http://www.nhl.com/ice/playersearch.htm?letter=%s&pg=%s" % (letter, page)
-                #print url
+                print url
                 html = urllib2.urlopen(url).read()
                 soup = BeautifulSoup(html)
                 body = soup.find("tbody")

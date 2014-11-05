@@ -88,4 +88,7 @@ class Player:
         print self.playerReference
         print tabulate(table, header, tablefmt="grid")
 
+    def getStats(self):
+        return self.stats
+
 
