@@ -6,7 +6,7 @@ class CurrentPlayerListProvider:
     playerList = {}
 
     def __init__(self):
-        for page in range(1,15):
+        for page in range(1,20):
             url = "http://www.nhl.com/ice/playersearch.htm?season=20142015&pg=%s" % (page)
             print url
             html = urllib2.urlopen(url).read()
