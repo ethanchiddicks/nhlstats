@@ -69,5 +69,5 @@ class YearlyScrapeProvider:
         player = {}
         if playerKey in self.stats:
             for stat, meta in self.statsAvailable.iteritems():
-                player[stat] = self.stats[playerKey][meta['columnName']]
+                player[stat] = int(self.stats[playerKey][meta['columnName']])
         return player
