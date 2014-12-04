@@ -7,5 +7,9 @@ class PercentileRank:
         self.valueArrayLength = len(valueArray)
 
     def getScore(self, value):
-        return sum(self.valueArray < value) / float(self.valueArrayLength) * 100
+        try:
+            score = sum(self.valueArray < value) / float(self.valueArrayLength) * 100
+        except (TypeError, KeyError, ZeroDivisionError):
+            score = 0.0
+        return score
 
