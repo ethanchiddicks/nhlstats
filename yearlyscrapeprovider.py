@@ -69,5 +69,8 @@ class YearlyScrapeProvider:
         player = {}
         if playerKey in self.stats:
             for stat, meta in self.statsAvailable.iteritems():
-                player[stat] = int(self.stats[playerKey][meta['columnName']])
+                if self.stats[playerKey][meta['columnName']].isdigit():
+                    player[stat] = float(self.stats[playerKey][meta['columnName']])
+                else:
+                    player[stat] = self.stats[playerKey][meta['columnName']]
         return player
