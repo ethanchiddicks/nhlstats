@@ -1,0 +1,21 @@
+---
+
+name: Donka Donka Donka
+positions:
+    - position: C
+      slots: 2
+
+    - position: LW
+      slots: 2
+
+    - position: RW
+      slots: 2
+
+    - position: D
+      slots: 4
+
+    - position: G
+      slots: 2
+
+
+
